@@ -7,3 +7,10 @@ export interface Product extends IProductToInsert {
   id: number,
   orderId?: Array<number>,
 }
+
+export interface User {
+  username: string;
+  vocation: string;
+  level: number;
+  password: string;
+}
