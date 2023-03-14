@@ -5,4 +5,5 @@ export interface IProductToInsert {
 
 export interface Product extends IProductToInsert {
   id: number,
+  orderId?: Array<number>,
 }
