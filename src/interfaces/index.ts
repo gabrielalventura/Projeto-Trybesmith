@@ -16,6 +16,6 @@ export interface User {
 }
 
 export interface Ilogin {
-  email: string;
+  username: string;
   password: string;
 }
