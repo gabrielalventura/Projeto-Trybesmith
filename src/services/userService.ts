@@ -1,6 +1,7 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
 import { User, Ilogin } from '../interfaces';
 import userModel from '../models/userModel';
+import HttpException from '../shared/http.exception';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'aerosmith';
 
@@ -20,6 +21,9 @@ const insertUser = async (user: User): Promise<string> => {
 
 const toLogin = async (login: Ilogin) => {
   const users = await userModel.toLogin(login);
+  if (users.length === 0 || users[0].password !== login.password) {
+    throw new HttpException(401, 'Username or password invalid');
+  }
   return generateToken(users[0]);
 };
 
