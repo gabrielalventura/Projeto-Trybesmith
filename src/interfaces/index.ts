@@ -19,3 +19,9 @@ export interface ILogin {
   username: string;
   password: string;
 }
+
+export interface IOrder {
+  id: number;
+  userId: number;
+  productsIds:Array<number>;
+}
