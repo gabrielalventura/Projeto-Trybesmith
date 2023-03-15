@@ -23,7 +23,10 @@ const toLogin = async (iLogin: ILogin) => {
   if (data === null || data.password !== iLogin.password) {
     return { status: 401, data: { message: 'Username or password invalid' } };
   }
-  return { status: 200, data: { token: generateToken(data) } };
+  // return { status: 200, data: { token: generateToken(data) } }; payload não funciona aqui, melhor refazer a função do token substituindo payload pela informação recebida no login;
+
+  const token = jwt.sign({ data }, JWT_SECRET, JWT_CONFIG);
+  return { status: 200, data: { token } };
 };
 
 const userService = {
