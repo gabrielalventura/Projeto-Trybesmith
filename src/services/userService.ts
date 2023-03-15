@@ -1,5 +1,5 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { User } from '../interfaces';
+import { User, Ilogin } from '../interfaces';
 import userModel from '../models/userModel';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'aerosmith';
@@ -18,8 +18,14 @@ const insertUser = async (user: User): Promise<string> => {
   return token;
 };
 
+const toLogin = async (login: Ilogin) => {
+  const users = await userModel.toLogin(login);
+  return generateToken(users[0]);
+};
+
 const userService = {
   insertUser,
+  toLogin,
 };
 
 export default userService;
