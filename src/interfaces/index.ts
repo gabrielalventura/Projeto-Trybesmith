@@ -14,8 +14,3 @@ export interface User {
   level: number;
   password: string;
 }
-
-export interface Ilogin {
-  username: string;
-  password: string;
-}

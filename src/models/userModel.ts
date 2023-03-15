@@ -1,6 +1,6 @@
-import { ResultSetHeader, RowDataPacket } from 'mysql2';
+import { ResultSetHeader } from 'mysql2';
 import connection from './connection';
-import { User, Ilogin } from '../interfaces';
+import { User } from '../interfaces';
 
 const createUser = async (user: User) => {
   const { username, vocation, level, password } = user;
@@ -11,19 +11,20 @@ const createUser = async (user: User) => {
   return insert;
 };
 
-const toLogin = async (login: Ilogin): Promise<User[]> => {
-  const { username } = login;
+const findByUsername = async (username: string): Promise<User | null> => {
+  const query = 'SELECT * FROM Trybesmith.users WHERE username = ?;';
+  const values = [username];
 
-  const [rows] = await connection.execute<RowDataPacket[] & User[]>(
-    'SELECT * FROM Trybesmith.users WHERE username = ?;',
-    [username],
-  );
-  return rows;
+  const [data] = await connection.execute(query, values);
+  const [user] = data as User[];
+
+  return user || null;
 };
+// requisito elaborado com auxilio da atividade realizada no dia 8.3, repositorio: https://github.com/tryber/praticando-typescript-express/blob/main/atividade-1/src/models/userModel.ts;
 
 const userModel = {
   createUser,
-  toLogin,
+  findByUsername,
 };
 
 export default userModel;
