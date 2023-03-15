@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
-import { Ilogin } from '../interfaces';
+import { ILogin } from '../interfaces';
 
 const loginMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  const { username, password } = req.body as Ilogin;
+  const { username, password } = req.body as ILogin;
 
   if (!username) {
     return res.status(400).json({ message: '"username" is required' });

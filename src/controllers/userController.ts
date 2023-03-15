@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Ilogin, User } from '../interfaces';
+import { ILogin, User } from '../interfaces';
 import userService from '../services/userService';
 
 const insertUser = async (req: Request, res: Response) => {
@@ -9,12 +9,13 @@ const insertUser = async (req: Request, res: Response) => {
 };
 
 const toLogin = async (
-  req: Request<object, object, Ilogin>,
+  req: Request,
   res: Response,
 ) => {
-  const { body } = req;
-  const token = await userService.toLogin(body);
-  return res.status(200).json({ token });
+  const login = req.body as ILogin;
+  const { status, data } = await userService.toLogin(login);
+
+  return res.status(status).json(data);
 };
 
 const userController = {
