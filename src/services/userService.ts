@@ -1,5 +1,5 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { User, Ilogin } from '../interfaces';
+import { User, ILogin } from '../interfaces';
 import userModel from '../models/userModel';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'aerosmith';
@@ -18,12 +18,12 @@ const insertUser = async (user: User): Promise<string> => {
   return token;
 };
 
-const toLogin = async (login: Ilogin) => {
-  const users = await userModel.toLogin(login);
-  if (users.length === 0 || users[0].password !== login.password) {
+const toLogin = async (iLogin: ILogin) => {
+  const data = await userModel.findByUsername(iLogin.username);
+  if (data === null || data.password !== iLogin.password) {
     return { status: 401, data: { message: 'Username or password invalid' } };
   }
-  return generateToken(users[0]);
+  return { status: 200, data: { token: generateToken(data) } };
 };
 
 const userService = {
